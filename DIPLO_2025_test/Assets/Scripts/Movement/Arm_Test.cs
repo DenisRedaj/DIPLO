@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using System.Linq;
 
 
 public class Arm_Test : MonoBehaviour
@@ -10,8 +11,24 @@ public class Arm_Test : MonoBehaviour
     public TextMeshProUGUI button;
     public GameObject bone;
     public GameObject bone2;
-     public GameObject bone3;
-    void Start(){}
+    public GameObject bone3;
+     public Transform[] allBones;
+
+     private List<Transform> boneList = new List<Transform>();
+
+
+    void Start(){
+
+        allBones = GetComponentsInChildren<Transform>(true);
+        foreach (var bone in allBones.Where(bone => (bone != transform)))
+        {
+            if(bone.name.Contains("BONE")) {
+                boneList.Add(bone);
+                Debug.Log(boneList.Last().name);
+            }
+        }  
+
+    }
 
     IEnumerator rotateJoint(GameObject bone, float angle, Vector3 axis, float time, float delay=0){
 
